@@ -16,6 +16,8 @@ dependencies {
     compile 'org.springframework.session:spring-session-core'
     implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.3.9.RELEASE'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+    compile 'com.sendgrid:sendgrid-java:4.3.0'
+    compile 'com.warrenstrange:googleauth:1.4.0'
 }
 
 test {
