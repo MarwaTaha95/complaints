@@ -2,6 +2,8 @@ package com.abc.complaints.service;
 
 import com.abc.complaints.Constants;
 import com.abc.complaints.entity.Session;
+import com.abc.complaints.repository.PersonRepository;
+import com.abc.complaints.repository.mock.MockPersonRepository;
 import com.abc.complaints.service.impl.DefaultSessionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class SessionServiceTest {
-    private final SessionService sessionService = new DefaultSessionService();
+    private final SessionService sessionService = new DefaultSessionService(null);
 
     @Test
     public void testCreateNewSessionObject() {
