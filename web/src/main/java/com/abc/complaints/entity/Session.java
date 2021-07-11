@@ -42,4 +42,16 @@ public class Session {
     public void setIdentityIds(List<String> identityIds) {
         this.identityIds = identityIds;
     }
+
+    public <T> T getAttribute(String name) {
+        return (T) this.attributes.get(name);
+    }
+
+    public void putAttribute(String name, Object value) {
+        this.attributes.put(name, value);
+    }
+
+    public <T> T removeAttribute(String name) {
+        return (T) this.attributes.remove(name);
+    }
 }
