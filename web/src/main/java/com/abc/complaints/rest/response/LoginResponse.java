@@ -4,6 +4,7 @@ public class LoginResponse {
     String redirect;
     String email;
     String name;
+    boolean isAdmin;
 
     public String getRedirect() {
         return redirect;
@@ -27,5 +28,13 @@ public class LoginResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.nio.file.AccessDeniedException;
 
 @RestController
@@ -33,7 +34,7 @@ public class CodeVerifyController extends AbstractAuthenticationController {
     }
 
     @PostMapping
-    public Object verify(@RequestBody VerifyCodeRequest request) throws Exception {
+    public Object verify(@RequestBody VerifyCodeRequest request, HttpServletRequest httpServletRequest) throws Exception {
         validateUserNotAuthenticated();
         validateRequestParamsNotNull(request);
 
@@ -57,7 +58,6 @@ public class CodeVerifyController extends AbstractAuthenticationController {
         registerResponse.setRole(person.getRoleType().name());
         return registerResponse;
     }
-
 
     private void validateRequestParamsNotNull(VerifyCodeRequest request) throws EmptyFieldException {
         validateParamNotNull(request.getCode(), "Code");

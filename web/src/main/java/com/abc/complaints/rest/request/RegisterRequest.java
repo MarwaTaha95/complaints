@@ -4,7 +4,7 @@ public class RegisterRequest {
     private String email;
     private String password;
     private String name;
-    private String role;
+    private boolean isAdmin;
 
     public String getEmail() {
         return email;
@@ -30,11 +30,11 @@ public class RegisterRequest {
         this.name = name;
     }
 
-    public String getRole() {
-        return role;
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setIsAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

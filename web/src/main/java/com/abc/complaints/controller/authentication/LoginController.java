@@ -1,6 +1,7 @@
 package com.abc.complaints.controller.authentication;
 
 import com.abc.complaints.entity.Person;
+import com.abc.complaints.entity.RoleType;
 import com.abc.complaints.entity.Session;
 import com.abc.complaints.exception.entity.EmptyFieldException;
 import com.abc.complaints.exception.entity.EntityNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.nio.file.AccessDeniedException;
 
 @RestController
@@ -29,7 +31,7 @@ public class LoginController extends AbstractAuthenticationController {
     }
 
     @PostMapping
-    public Object login(@RequestBody LoginRequest request) throws Exception {
+    public Object login(@RequestBody LoginRequest request, HttpServletRequest httpServletRequest) throws Exception {
         validateUserNotAuthenticated();
         validateRequestParamsNotNull(request);
 
@@ -38,6 +40,7 @@ public class LoginController extends AbstractAuthenticationController {
         LoginResponse response = new LoginResponse();
         response.setName(person.getName());
         response.setEmail(person.getEmail());
+        response.setAdmin(person.getRoleType().equals(RoleType.ADMIN));
 
         return response;
     }

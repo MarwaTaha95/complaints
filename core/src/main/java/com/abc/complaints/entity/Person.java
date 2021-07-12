@@ -17,7 +17,7 @@ public class Person {
     private String email;
     private String password;
 
-    private RoleType roleType;
+    private RoleType roleType = RoleType.USER;
 
     public String getId() {
         return id;

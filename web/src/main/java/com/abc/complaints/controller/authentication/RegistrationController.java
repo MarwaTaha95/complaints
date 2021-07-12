@@ -2,6 +2,7 @@ package com.abc.complaints.controller.authentication;
 
 import com.abc.complaints.Constants;
 import com.abc.complaints.entity.Person;
+import com.abc.complaints.entity.RoleType;
 import com.abc.complaints.entity.Session;
 import com.abc.complaints.entity.Totp;
 import com.abc.complaints.exception.entity.AlreadyExistsException;
@@ -47,33 +48,24 @@ public class RegistrationController extends AbstractAuthenticationController {
         this.inputValidator = inputValidator;
     }
 
-    @PostMapping("/find")
-    public Object check(@RequestBody RegisterRequest request, HttpServletRequest httpServletRequest) throws Exception {
-        validateUserNotAuthenticated();
-        validateParamNotNull(request.getEmail(), "Email");
-        validateEmail(request.getEmail());
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @PostMapping("/submit")
     public Object register(@RequestBody RegisterRequest request, HttpServletRequest httpServletRequest) throws Exception {
         validateUserNotAuthenticated();
         validateRequestParams(request);
         validateEmail(request.getEmail());
 
-        var person = createPerosnEntity(request);
+        var person = createPersonEntity(request);
 
         session.putAttribute(Constants.Registration.PENDING_CREATION, person);
 
         Totp generatedTotp = totpService.generate(request.getEmail());
 
+        System.out.println(generatedTotp.getCode());
         session.putAttribute(Constants.Registration.TOTP, generatedTotp);
 
         Map<String, String> context = new HashMap<>();
         context.put("code", Integer.toString(generatedTotp.getCode()));
         communicationService.communicate(request.getEmail(), context, Constants.EMAIL_TEMPLATES.ACCOUNT_VERIFICATION);
-
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -100,10 +92,13 @@ public class RegistrationController extends AbstractAuthenticationController {
             throw new IllegalArgumentException("Email address is invalid: " + email);
     }
 
-    private Person createPerosnEntity(RegisterRequest registerRequest) {
+    private Person createPersonEntity(RegisterRequest registerRequest) {
         Person person = new Person();
         person.setName(registerRequest.getName());
         person.setEmail(registerRequest.getEmail());
+
+        if (registerRequest.isAdmin())
+            person.setRoleType(RoleType.ADMIN);
 
         var encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
         person.setPassword(encodedPassword);
