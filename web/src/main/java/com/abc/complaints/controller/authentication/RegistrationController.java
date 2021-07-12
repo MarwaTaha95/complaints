@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class RegistrationController extends AbstractAuthenticationController {
     }
 
     @PostMapping("/find")
-    public Object check(@RequestBody RegisterRequest request) throws Exception {
+    public Object check(@RequestBody RegisterRequest request, HttpServletRequest httpServletRequest) throws Exception {
         validateUserNotAuthenticated();
         validateParamNotNull(request.getEmail(), "Email");
         validateEmail(request.getEmail());
@@ -56,7 +57,7 @@ public class RegistrationController extends AbstractAuthenticationController {
     }
 
     @PostMapping("/submit")
-    public Object register(@RequestBody RegisterRequest request) throws Exception {
+    public Object register(@RequestBody RegisterRequest request, HttpServletRequest httpServletRequest) throws Exception {
         validateUserNotAuthenticated();
         validateRequestParams(request);
         validateEmail(request.getEmail());
