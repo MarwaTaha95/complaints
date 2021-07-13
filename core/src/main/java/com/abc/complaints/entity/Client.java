@@ -17,7 +17,7 @@ public enum Client {
 
     public static Client getByCode(String code) {
         for (Client e : Client.values()) {
-            if (e.getCode().equals(code)) {
+            if (e.getCode().equalsIgnoreCase(code)) {
                 return e;
             }
         }
