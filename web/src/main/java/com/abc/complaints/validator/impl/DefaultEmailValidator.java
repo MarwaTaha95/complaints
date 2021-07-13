@@ -4,6 +4,9 @@ import com.abc.complaints.validator.EmailValidator;
 import com.google.common.base.Strings;
 import org.springframework.stereotype.Component;
 
+/**
+ * Email validator, to make sure the email address is of correct format
+ * */
 @Component
 public class DefaultEmailValidator implements EmailValidator {
     private boolean isEmail(String email) {

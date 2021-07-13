@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Validate input against injection attacks
+ * */
 @Component
 public class DefaultInputValidator implements InputValidator {
 
@@ -21,9 +24,9 @@ public class DefaultInputValidator implements InputValidator {
     @Override
     public String validateInput(String input) {
         if (Strings.isNullOrEmpty(input) || isValid(input)) {
-            return input;
+            return input.trim();
         } else {
-            return PREFIX + input;
+            return PREFIX + input.trim();
         }
     }
 }

@@ -17,9 +17,5 @@ public interface Constants {
         String PENDING_CREATION = "pending_creation";
         String TOTP = "totp";
     }
-
-    interface IDENTITIES {
-        String PERSON = "person";
-    }
 }
 

@@ -14,7 +14,13 @@ import java.util.UUID;
 public class DefaultTotpService implements TotpService {
     private GoogleAuthenticator googleAuthenticator;
 
-    public DefaultTotpService(@Value("${todos.totp.window.size}") int windowSize, @Value("${todos.totp.millis}") int millis) {
+    /**
+     * Constructor
+     * <p>
+     * used to initialize google authenticator that will be used for creating and validating
+     * a one-time password for users.
+     */
+    public DefaultTotpService(@Value("${totp.window.size}") int windowSize, @Value("${totp.millis}") int millis) {
         this.googleAuthenticator = new GoogleAuthenticator(
                 new GoogleAuthenticatorConfig.GoogleAuthenticatorConfigBuilder()
                         .setTimeStepSizeInMillis(millis)
@@ -22,6 +28,12 @@ public class DefaultTotpService implements TotpService {
                         .build());
     }
 
+    /**
+     * Generate a one-time password for a user
+     *
+     * @param source, identifier of the user (email)
+     * @return Totp object containing the generated code and the secret to validate it
+     */
     public Totp generate(String source) {
         var totp = new Totp();
 
@@ -33,12 +45,18 @@ public class DefaultTotpService implements TotpService {
         return totp;
     }
 
+    /**
+     * Generate a random secret to be used for creating totp
+     */
     private String createSecret() {
         String secret = UUID.randomUUID().toString().replace("-", "").substring(1, 11);
         secret = new Base32().encodeAsString(secret.getBytes());
         return secret;
     }
 
+    /**
+     * Validate the received code using the secret that was used for creating it
+     */
     public boolean validateCode(Totp totp, String code) {
         try {
             int value = Integer.parseInt(code);

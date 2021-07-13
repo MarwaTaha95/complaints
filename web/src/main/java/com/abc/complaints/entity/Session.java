@@ -1,9 +1,18 @@
 package com.abc.complaints.entity;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * An entity for a user's session.
+ * <p>
+ * It can be used to store user, and other attributes related to users.
+ * The globalId is to be used as a cookie value
+ */
 public class Session implements Serializable {
     String id = UUID.randomUUID().toString();
     String globalId;

@@ -9,6 +9,10 @@ import org.springframework.context.annotation.ScopedProxyMode;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * This config file creates a bean of type Session, to store
+ * user's data, and make it accessible for all services.
+ */
 @Configuration
 public class SessionConfig {
     private final SessionService sessions;
@@ -17,6 +21,12 @@ public class SessionConfig {
         this.sessions = sessions;
     }
 
+    /**
+     * Create a session bean and scope it per request, to be aligned with
+     * the HttpSession.
+     *
+     * @return a session bean.
+     */
     @Bean
     @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public Session session(HttpServletRequest request) {

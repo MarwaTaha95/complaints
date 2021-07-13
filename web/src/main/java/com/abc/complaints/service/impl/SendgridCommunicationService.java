@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * This service is fo managing emails with sendGrid
+ */
 @Service
 public class SendgridCommunicationService implements CommunicationService {
     private final SendgridConfig sendgridConfig;
@@ -16,6 +19,9 @@ public class SendgridCommunicationService implements CommunicationService {
         this.sendgridConfig = sendGridConfig;
     }
 
+    /**
+     * Send an email to user using sendgrid config, and the parameters provided in the context.
+     */
     @Override
     public void communicate(String sendTo, Map<String, String> context, String template) throws IOException {
         Email from = new Email(sendgridConfig.getSender());
@@ -27,6 +33,9 @@ public class SendgridCommunicationService implements CommunicationService {
         sendMail(mail);
     }
 
+    /**
+     * Add context fields into email personalization
+     */
     private Personalization createPersonalizationForMail(Map<String, String> context, Email sendTo) {
         Personalization personalization = new Personalization();
         for (Map.Entry<String, String> entry : context.entrySet()) {
@@ -36,6 +45,9 @@ public class SendgridCommunicationService implements CommunicationService {
         return personalization;
     }
 
+    /**
+     * Prepare for sending the email, using a specific template, personalization, and sender
+     */
     private Mail prepareMail(String template, Personalization personalization, Email sender) {
         Mail mail = new Mail();
         mail.setTemplateId(template);

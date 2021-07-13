@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * This API is for retrieving and managing complaints for a user
+ */
 @RestController
 @RequestMapping("/api/v1/rest/complaints")
 public class ComplaintsController {
@@ -24,6 +27,9 @@ public class ComplaintsController {
         this.sessions = sessions;
     }
 
+    /**
+     * Get all complaints for the user in session
+     */
     @GetMapping(value = "/get")
     public Object get(HttpServletRequest httpServletRequest) throws Exception {
         Person existingPerson = sessions.getPerson(session);
@@ -34,6 +40,11 @@ public class ComplaintsController {
         return complaints.findByPersonId(existingPerson.getId());
     }
 
+    /**
+     * Create a new complaint for the user in session.
+     *
+     * @param request, complaint's data to be created
+     */
     @PostMapping(value = "/create")
     public Object create(@RequestBody ComplaintRequest request, HttpServletRequest httpServletRequest) throws Exception {
         Person existingPerson = sessions.getPerson(session);
@@ -52,6 +63,10 @@ public class ComplaintsController {
         return complaint;
     }
 
+    /**
+     * Get all pending complaints, from all users.
+     * Accessible for admins only
+     */
     @GetMapping(value = "/getAll")
     public Object getAll(HttpServletRequest httpServletRequest) throws Exception {
         Person existingPerson = sessions.getPerson(session);
@@ -62,6 +77,10 @@ public class ComplaintsController {
         return complaints.findByStatus(ComplaintStatus.PENDING);
     }
 
+    /**
+     * Update the status of a complaint.
+     * Only accessible by admins
+     */
     @PostMapping(value = "/update")
     public Object update(@RequestBody UpdateRequest request, HttpServletRequest httpServletRequest) throws Exception {
         Person existingPerson = sessions.getPerson(session);
@@ -70,12 +89,10 @@ public class ComplaintsController {
         }
 
         Complaint complaint = complaints.findById(request.getId()).orElse(null);
-        if(complaint != null) {
+        if (complaint != null) {
             complaint.setStatus(ComplaintStatus.getByCode(request.getStatus()));
             complaints.save(complaint);
         }
         return complaint;
     }
-
-
 }

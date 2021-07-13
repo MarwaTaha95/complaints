@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.AccessDeniedException;
 
+/**
+ * This API is for authenticating a user, with email and password.
+ */
 @RestController
 @RequestMapping("/api/v1/rest/login")
 public class LoginController extends AbstractAuthenticationController {
@@ -30,6 +33,10 @@ public class LoginController extends AbstractAuthenticationController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * @param request, contains the login info( email and password) to authenticate a user
+     * @return loginResponse containing user's main info
+     */
     @PostMapping
     public Object login(@RequestBody LoginRequest request, HttpServletRequest httpServletRequest) throws Exception {
         validateUserNotAuthenticated();
@@ -45,20 +52,29 @@ public class LoginController extends AbstractAuthenticationController {
         return response;
     }
 
+    /**
+     * Validate request params aren't null
+     * */
     private void validateRequestParamsNotNull(LoginRequest loginRequest) throws EmptyFieldException {
         validateParamNotNull(loginRequest.getEmail(), "Email");
         validateParamNotNull(loginRequest.getPassword(), "Password");
     }
 
+    /**
+     * Get from db, the user with the credentials provided
+     *
+     * @throws EntityNotFoundException if there is no user with provided email
+     * @throws AccessDeniedException if the password provided doesn't match the stored password
+     * */
     private Person getPersonOfCredentials(LoginRequest request) throws Exception {
         Person person = people.findByEmail(request.getEmail());
         if (person == null) {
-            throw new EntityNotFoundException("Cannot find user with email: " + request.getEmail()); // return to sign up page; account does not exist
+            throw new EntityNotFoundException("Cannot find user with email: " + request.getEmail());
         }
 
         boolean isPasswordCorrect = passwordEncoder.matches(request.getPassword(), person.getPassword());
         if (!isPasswordCorrect) {
-            throw new AccessDeniedException("Authentication failed, wrong password"); // return error, wrong password
+            throw new AccessDeniedException("Authentication failed, wrong password");
         }
         return person;
     }
