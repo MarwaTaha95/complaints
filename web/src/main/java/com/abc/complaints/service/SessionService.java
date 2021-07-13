@@ -18,4 +18,6 @@ public interface SessionService {
     void authenticate(Session session, Person person);
 
     SessionState getState(Session session);
+
+    void logout(Session session);
 }

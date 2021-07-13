@@ -2,6 +2,8 @@ package com.abc.complaints.controller;
 
 import com.abc.complaints.entity.Session;
 import com.abc.complaints.service.SessionService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +26,12 @@ public class SessionController  {
     @GetMapping(value = "/state")
     public Object state(HttpServletRequest httpServletRequest) {
         return sessions.getState(session);
+    }
+
+    @GetMapping(value = "/logout")
+    public Object logout(HttpServletRequest httpServletRequest) {
+        sessions.logout(session);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

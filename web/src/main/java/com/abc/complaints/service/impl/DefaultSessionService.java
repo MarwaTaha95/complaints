@@ -10,6 +10,7 @@ import com.abc.complaints.service.SessionService;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -70,5 +71,10 @@ public class DefaultSessionService implements SessionService {
         } else {
             return SessionState.ANONYMOUS;
         }
+    }
+
+    @Override
+    public void logout(Session session) {
+        session.setIdentityIds(new HashSet<>());
     }
 }
