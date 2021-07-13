@@ -65,7 +65,7 @@ public class RegistrationController extends AbstractAuthenticationController {
 
         Map<String, String> context = new HashMap<>();
         context.put("code", Integer.toString(generatedTotp.getCode()));
-        communicationService.communicate(request.getEmail(), context, Constants.EMAIL_TEMPLATES.ACCOUNT_VERIFICATION);
+//        communicationService.communicate(request.getEmail(), context, Constants.EMAIL_TEMPLATES.ACCOUNT_VERIFICATION);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

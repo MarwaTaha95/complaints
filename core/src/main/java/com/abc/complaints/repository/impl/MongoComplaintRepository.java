@@ -31,6 +31,6 @@ public class MongoComplaintRepository extends AbstractMongoRepository<Complaint>
 
     @Override
     public List<Complaint> findByStatus(ComplaintStatus status) {
-        return mongoTemplate.find(Query.query(Criteria.where("roleType").is(status.name())), Complaint.class);
+        return mongoTemplate.find(Query.query(Criteria.where("status").is(status.name())), Complaint.class);
     }
 }

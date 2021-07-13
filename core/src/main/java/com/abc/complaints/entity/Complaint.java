@@ -15,7 +15,8 @@ public class Complaint {
     private String description;
 
     private Priority priority;
-    private String country;
+
+    private Client client;
 
     @Indexed
     private String personId;
@@ -39,6 +40,14 @@ public class Complaint {
         return description;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -49,14 +58,6 @@ public class Complaint {
 
     public void setPriority(Priority priority) {
         this.priority = priority;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public String getPersonId() {

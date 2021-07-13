@@ -2,7 +2,9 @@ package com.abc.complaints.service.impl;
 
 import com.abc.complaints.Constants;
 import com.abc.complaints.entity.Person;
+import com.abc.complaints.entity.RoleType;
 import com.abc.complaints.entity.Session;
+import com.abc.complaints.entity.SessionState;
 import com.abc.complaints.repository.PersonRepository;
 import com.abc.complaints.service.SessionService;
 import org.springframework.stereotype.Service;
@@ -57,5 +59,16 @@ public class DefaultSessionService implements SessionService {
     @Override
     public void authenticate(Session session, Person person) {
         session.getIdentityIds().add(person.getId());
+    }
+
+    @Override
+    public SessionState getState(Session session) {
+        Person person = getPerson(session);
+
+        if(person != null) {
+            return person.getRoleType().equals(RoleType.ADMIN) ? SessionState.ADMIN_AUTHENTICATED : SessionState.USER_AUTHENTICATED;
+        } else {
+            return SessionState.ANONYMOUS;
+        }
     }
 }
